@@ -70,7 +70,7 @@ export default function AddCenter() {
   };
 
   return (
-    <div className=" flex items-center justify-center bg-gray-100 px-4 text-gray-600">
+    <div className="  flex-col min-h-screen bg-white flex items-center justify-center px-4 text-gray-600">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">
           Add New Branches
