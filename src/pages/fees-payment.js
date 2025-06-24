@@ -17,8 +17,9 @@ import { useStudents } from "@/hooks/useStudents";
 import FeesSearch from "@/components/FeesSearch";
 import FeesTable from "@/components/FeesTable";
 import PaymentFormModal from "@/components/PaymentFormModal";
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
 
-export default function AttendancePage() {
+function AttendancePage() {
   const {
     selectedYear,
     selectedClass,
@@ -273,4 +274,7 @@ export default function AttendancePage() {
       )}
     </div>
   );
+}
+export default function WrappedPage() {
+  return <ProtectedRoute Component={AttendancePage} />;
 }

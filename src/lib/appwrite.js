@@ -98,24 +98,12 @@ export async function GetTuitionCenter(userId) {
   return tuitionCenters.documents[0];
 }
 export async function createTuitionBranch(data) {
-  // Fetch matching classes
-  const classDocs = await databases.listDocuments(
-    databaseId,
-    classesCollectionId,
-    [Query.equal("class", data.classes)]
-  );
-  const classCollectionIds = classDocs.documents.map((item) => item.$id);
-
   const yearCollectionIds = await Promise.all(
     data.years.map(async (item) => (await createOrGetYear(item)).$id)
   );
-  console.log({
-    name: data.name,
-    classes: classCollectionIds,
-    years: yearCollectionIds,
-    tuitionCenter: data.tuitionCenter,
-    students: [],
-  });
+  const classCollectionIds = await Promise.all(
+    data.classes.map(async (item)=>(await createOrGetClass(item)).$id)
+  )
   return await databases.createDocument(
     databaseId,
     branchCollectionId,
@@ -128,6 +116,15 @@ export async function createTuitionBranch(data) {
     }
   );
 }
+const getAllYears = async ()=>{
+  const years = await databases.listDocuments(databaseId, yearCollectionId);
+  return years.documents;
+}
+const getAllClasses = async()=>{
+  const classes = await databases.listDocuments(databaseId, classesCollectionId);
+  return classes.documents;
+}
+
 export async function deleteTuitionBranch(id) {
   await databases.deleteDocument(databaseId, branchCollectionId, id);
 }
@@ -144,6 +141,20 @@ const createOrGetYear = async (year) => {
     );
   }
   return yearDoc.documents[0];
+};
+const createOrGetClass = async (className) => {
+  const classDoc = await databases.listDocuments(databaseId, classesCollectionId, [
+    Query.equal("class", className),
+  ]);
+  if (classDoc.documents.length == 0) {
+    return await databases.createDocument(
+      databaseId,
+      classesCollectionId,
+      ID.unique(),
+      { class: className }
+    );
+  }
+  return classDoc.documents[0];
 };
 export const updateTuitionCenterBranch = async (itemId, data) => {
   const classIds = data.classes.map((cls) => (cls.$id ? cls.$id : null));
@@ -689,4 +700,6 @@ export {
   getPaymentForDay,
   checkRegisterCode,
   deleteRegisterCode,
+  getAllYears,
+  getAllClasses,
 };

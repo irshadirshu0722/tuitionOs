@@ -28,6 +28,7 @@ function SessionLoader({ children }) {
     setRole,
     studentLoading,
     centerStudents,
+    setUser,
   } = useUserContext();
   const [loading, setLoading] = useState(true);
   const isFetchedUser = useRef(false);
@@ -42,53 +43,55 @@ function SessionLoader({ children }) {
       try {
         setLoading(true);
         const userInfo = await account.get();
+        console.log("User Info", userInfo);
+        setUser(userInfo);
         const staffDetails = await checkIsStaff(userInfo);
+        console.log("Staff Info", staffDetails);
         if (staffDetails) {
           setRole("staff");
           setCenterDetails(staffDetails.tuitionCenter);
           setBranchDetails(staffDetails.branch);
           if (router.pathname == "/") {
-            router.push("/admission");
+            return router.push("/admission");
           }
         } else {
+          console.log("User is not a staff member, fetching center data");
           setRole("admin");
           await fetchCenterData(userInfo);
         }
         if (router.pathname == "/login") {
-          router.push("/");
+          return router.push("/");
         }
       } catch (error) {
         setRole(null);
-        router.pathname == "/register"
-          ? router.push("/register")
-          : router.push("/login");
+        console.log("Error fetching user session:", error);
+        return;
       } finally {
         setLoading(false);
       }
     };
-    if (!isParentView){
-
+    if (!isParentView) {
       checkSessionAndFetchCenterDetails();
-    } 
+    }
   }, []);
   const checkIsStaff = async (userInfo) => {
     try {
       return await getStaffDetails(userInfo.$id);
     } catch (error) {
-      console.log("Staff error", error);
+      // console.log("Staff error", error);
       return null;
     }
   };
   const fetchCenterData = async (userInfo) => {
     try {
       const data = await GetTuitionCenter(userInfo.$id);
-      console.log(data);
+      console.log("Center Data", data);
       setCenterDetails(data);
     } catch (error) {
       throw Error(error);
     }
   };
-  
+
   if (isParentView) {
     return (
       <div className="flex flex-col min-h-screen bg-white">{children}</div>
@@ -97,13 +100,12 @@ function SessionLoader({ children }) {
   if (loading || (studentLoading && !isFetchedUser)) {
     return <Loading />;
   }
+  console.log("Hi enter to app");
   const hideNavbarPaths = ["/login", "/register", "/", "/add-center"];
   const shouldHideNavbar = hideNavbarPaths.includes(router.pathname);
   if (shouldHideNavbar) {
-
-
     return (
-      <div className="flex flex-col min-h-screen bg-white">{children}</div>
+      <div className="flex flex-col min-h-screen bg-white ">{children}</div>
     );
   }
   return (

@@ -12,7 +12,8 @@ import ExamTable from "@/components/ExamTable";
 import toast from "react-hot-toast";
 import { getExams } from "@/lib/appwrite";
 import ExamDetailDrawer from "@/components/ExamDetails";
-export default function Admission() {
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
+function Admission() {
   const router = useRouter();
   const {
     centerStudents,
@@ -45,14 +46,14 @@ export default function Admission() {
   };
 
   useEffect(() => {
-    console.log("fetching exams", centerStudents);
-    if (centerStudents && centerStudents != null) {
+    console.log("fetching exams", branchDetails);
+    if (branchDetails && branchDetails.$id) {
       console.log("going to fetch");
       setSelectedExam(null);
       setExams([]);
       fetchExams();
     }
-  }, [centerStudents]);
+  }, [branchDetails, selectedYear, selectedClass]);
   const fetchExams = async () => {
     setLoading(true);
     try {
@@ -134,4 +135,7 @@ export default function Admission() {
       )}
     </div>
   );
+}
+export default function WrappedPage() {
+  return <ProtectedRoute Component={Admission} />;
 }

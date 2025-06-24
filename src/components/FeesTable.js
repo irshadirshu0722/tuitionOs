@@ -32,55 +32,50 @@ const FeesTable = ({ paymentsData, onHandlePaid, loading, paymentLoading }) => {
     <div>
       <div className="overflow-x-auto">
         <div className="min-w-[900px]">
-          {/* Fixed Header */}
-          <table className="min-w-full table-fixed">
-            <thead className="bg-gray-50">
-              <tr>
-                {[
-                  "Student ID",
-                  "Student Name",
-                  "Date",
-                  "Amount",
-                  "TotalPaid",
-                  "Status",
-                  "Action",
-                ].map((text) => (
-                  <th
-                    key={text}
-                    className="sticky top-0 bg-gray-50 z-10 px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                  >
-                    {text}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-          </table>
-
-          {/* Scrollable Body */}
           <div className="max-h-[600px] overflow-y-auto">
             <table className="min-w-full table-fixed">
+              <thead className="bg-gray-50">
+                <tr>
+                  {[
+                    "Student ID",
+                    "Student Name",
+                    "Date",
+                    "Amount",
+                    "TotalPaid",
+                    "Status",
+                    "Action",
+                  ].map((text) => (
+                    <th
+                      key={text}
+                      className="sticky top-0 bg-gray-50 z-10 px-5 py-3 border-b-2 border-gray-200 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                    >
+                      {text}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
               <tbody>
                 {!loading &&
                   filteredData.map((item) => (
                     <tr key={item.$id}>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         {item.$id.slice(item.$id.length - 8)}
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         {item.name}
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         {item.paid
                           ? format(item.paidAt, "dd MMMM yyyy")
                           : "____"}
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         {item.paid ? item.amount : "____"}
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         {item.totalPaid}
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <div
                           className={`inline-block px-3 py-1 rounded-full text-xs font-semibold
                           ${
@@ -92,7 +87,7 @@ const FeesTable = ({ paymentsData, onHandlePaid, loading, paymentLoading }) => {
                           {item.paid ? "Paid" : "Unpaid"}
                         </div>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <button
                           onClick={() =>
                             onHandlePaid(

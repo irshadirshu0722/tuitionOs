@@ -11,8 +11,9 @@ import toast from "react-hot-toast";
 import Button from "@/components/atomic/button/Button";
 import Loading from "@/components/atomic/loading/Loading";
 import { useUserContext } from "@/context/GlobalContext";
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
 
-export default function EditCenter() {
+function EditCenter() {
   const router = useRouter();
   const { id } = router.query;
   const { setBranchDetails, setCenterStudents } = useUserContext();
@@ -173,4 +174,7 @@ export default function EditCenter() {
       </div>
     </div>
   );
+}
+export default function WrappedPage() {
+  return <ProtectedRoute Component={EditCenter} />;
 }

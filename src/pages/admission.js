@@ -8,8 +8,9 @@ import StudentTable from "../components/StudentTable";
 import StudentFormModal from "../components/StudentFormModal";
 
 import { useUserContext } from "@/context/GlobalContext";
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
 
-export default function Admission() {
+ function Admission() {
   const router = useRouter();
   const { centerStudents, selectedYear, selectedClass } = useUserContext();
 
@@ -69,4 +70,7 @@ export default function Admission() {
       )}
     </div>
   );
+}
+export default function WrappedPage() {
+  return <ProtectedRoute Component={Admission} />;
 }

@@ -48,6 +48,7 @@ export default function StudentTable({ onEdit, centerStudents }) {
       const endIndex = startIndex + studentsPerPage;
       setFilteredData(centerStudents.slice(startIndex, endIndex));
     } else {
+      console.log("No students found");
       setFilteredData([]);
     }
   }, [centerStudents, currentPage]);

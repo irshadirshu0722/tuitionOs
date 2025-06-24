@@ -672,8 +672,8 @@ export default function ParentStudentView() {
             {exams.length === 0 ? (
               <EmptyState icon={AcademicCapIcon} text="No exams found." />
             ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-[400px] text-sm border">
+              <div className="overflow-x-auto w-full">
+                <table className="min-w-[400px] w-full text-sm border">
                   <thead>
                     <tr className="bg-purple-50">
                       <th className="px-4 py-2 text-left">Date</th>

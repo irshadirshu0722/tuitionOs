@@ -17,7 +17,8 @@ import { toast } from "react-hot-toast";
 import { useUserContext } from "@/context/GlobalContext";
 import ClassFormModal from "@/components/ClassFormModal";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-export default function TimetablePage() {
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
+function TimetablePage() {
   const { branchDetails, selectedClass, selectedYear } = useUserContext();
   const [timetableData, setTimetableData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -317,4 +318,7 @@ export default function TimetablePage() {
       </div>
     </div>
   );
+}
+export default function WrappedPage() {
+  return <ProtectedRoute Component={TimetablePage} />;
 }

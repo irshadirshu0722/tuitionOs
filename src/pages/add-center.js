@@ -5,8 +5,9 @@ import { createTuitionBranch, createTuitionCenter } from "@/lib/appwrite";
 import toast, { Toaster } from "react-hot-toast";
 import Button from "@/components/atomic/button/Button";
 import { useUserContext } from "@/context/GlobalContext";
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
 
-export default function AddCenter() {
+function AddCenter() {
   const router = useRouter();
   const { centerDetails,setCenterDetails } = useUserContext();
   const [centerName, setCenterName] = useState("");
@@ -148,4 +149,7 @@ export default function AddCenter() {
       </div>
     </div>
   );
+}
+export default function WrappedDashboardPage() {
+  return <ProtectedRoute Component={AddCenter} />;
 }

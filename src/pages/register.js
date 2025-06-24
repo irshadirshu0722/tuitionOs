@@ -69,7 +69,6 @@ export default function SignUp() {
     }
     return true;
   };
-  console.log(isTestProduction);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -101,10 +100,8 @@ export default function SignUp() {
       if (!isTestProduction) {
         await deleteRegisterCode(registerInstance.$id);
       }
-
-      setCenterDetails(centerDetails);
       toast.success("Account created!");
-      router.push("/");
+      router.push("/login");
     } catch (error) {
       if (error.message == "code-not-exist") {
         toast.error("Register code is not exist, please contact support team");

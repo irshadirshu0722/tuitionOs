@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./atomic/button/Button";
 import { useUserContext } from "@/context/GlobalContext";
-import { createStaffAccount } from "@/lib/appwrite";
+import { account, createStaffAccount } from "@/lib/appwrite";
 import toast from "react-hot-toast";
 import { X } from "lucide-react";
 
@@ -13,8 +13,9 @@ const StaffFormModal = ({ open, onClose, branch }) => {
   const handleCreateStaff = async () => {
     if (!email || !password) return;
     setLoading(true);
+    let staffData;
     try {
-      const staffData = await createStaffAccount({
+      staffData = await createStaffAccount({
         email: email,
         password: password,
         tuitionCenter: centerDetails.$id,
@@ -34,10 +35,13 @@ const StaffFormModal = ({ open, onClose, branch }) => {
       toast.success("Successfully created staff account.");
       onClose();
     } catch (error) {
+      if(staffData){
+        await account.deleteIdentity()
+      }
       if(error.code == 409){
         toast.error("Failed to create staff account, this user already exist");
       }else{
-
+        
         toast.error("Failed to create staff account");
       }
     } finally {

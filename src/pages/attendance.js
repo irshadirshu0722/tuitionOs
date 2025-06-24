@@ -18,7 +18,8 @@ import Loading from "@/components/atomic/loading/Loading";
 import { AttendanceTable } from "@/components/AttendanceTable";
 import { useStudents } from "@/hooks/useStudents";
 import { jsPDF } from "jspdf";
-export default function AttendancePage() {
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
+ function AttendancePage() {
   const {
     studentLoading,
     selectedYear,
@@ -224,4 +225,7 @@ export default function AttendancePage() {
       />
     </div>
   );
+}
+export default function WrappedPage() {
+  return <ProtectedRoute Component={AttendancePage} />;
 }

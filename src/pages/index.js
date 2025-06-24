@@ -19,8 +19,9 @@ import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 import { FaUserFriends } from "react-icons/fa";
 import StaffFormModal from "@/components/StaffFormModal";
 import Image from "next/image";
+import ProtectedRoute from "@/components/middleware/ProtectedRouter";
 
-export default function Dashboard() {
+function Dashboard() {
   const router = useRouter();
   const {
     setCenterDetails,
@@ -29,6 +30,7 @@ export default function Dashboard() {
     role,
     setBranchDetails,
   } = useUserContext();
+  console.log("center data", centerDetails);
   const [branches, setBranches] = useState([]);
   const [search, setSearch] = useState("");
   const [loadingCenters, setLoadingCenters] = useState(false);
@@ -206,4 +208,7 @@ export default function Dashboard() {
       />
     </div>
   );
+}
+export default function WrappedPage() {
+  return <ProtectedRoute Component={Dashboard} />;
 }
